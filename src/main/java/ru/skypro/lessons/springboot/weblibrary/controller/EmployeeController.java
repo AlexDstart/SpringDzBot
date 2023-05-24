@@ -54,8 +54,8 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteEmployeeById(@PathVariable int id) {
-        return employeeService.deleteEmployeeById(id);
+    public void deleteEmployeeById(@PathVariable int id) {
+       employeeService.deleteEmployeeById(id);
     }
 
     @GetMapping("/salary/higher")

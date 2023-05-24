@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService {
+public class EmployeeServiceImpl  implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
@@ -64,10 +64,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.addEmployee(employees);
     }
 
+
     @Override
     public void editEmployee(int id, Employee newEmployee) {
-        employeeRepository.editEmployee(findEmployeeById(id).orElse(null), newEmployee);
+        Employee foundEmployee = findEmployeeById(id).orElseThrow(
+                () -> new IllegalArgumentException("Employee with id " + id + " not found"));
+        employeeRepository.editEmployee(foundEmployee.getId(), newEmployee);
     }
+    //@Override
+    //public void editEmployee(int id, Employee newEmployee) {
+    //    employeeRepository.editEmployee(findEmployeeById(id).orElse(null), newEmployee);
+    //}
 
     @Override
     public String getEmployeeById(int id) {
@@ -75,9 +82,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public String deleteEmployeeById(int id) {
-        employeeRepository.getListEmployeesForDeleting().removeIf(employee -> employee.getId() == id);
-        return "Найденный сотрудник c id = " + id + " успешно удален из базы данных";
+    public void deleteEmployeeById(int id) {
+        Employee foundEmployee = findEmployeeById(id).orElseThrow(
+                () -> new IllegalArgumentException("Employee with id " + id + " not found"));
+        employeeRepository.removeEmployee(foundEmployee);
     }
 
     @Override

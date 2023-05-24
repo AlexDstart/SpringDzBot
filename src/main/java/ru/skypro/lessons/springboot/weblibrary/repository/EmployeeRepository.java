@@ -10,7 +10,15 @@ public interface EmployeeRepository {
     List<Employee> getListEmployees();
     void addEmployee(List<Employee> employees);
 
-    void editEmployee(Employee foundEmployee, Employee newEmployee);
+
 
     List<Employee> getListEmployeesForDeleting();
+
+    void editEmployee(int id, Employee newEmployee);
+
+    void removeEmployee(Employee employee);
+
+    void findEmployeeById(int id);
+
+
 }
