@@ -26,81 +26,79 @@ public class EmployeeController {
         this.employeeService = employeeService;
         this.positionService = positionService;
     }
-
-    @PostMapping("/new/position")
-    public void addPosition(@RequestBody PositionDTO positionDTO) {
-        positionService.addPosition(positionDTO);
-    }
-
-    @GetMapping("/positions")
-    public List<PositionDTO> getAllPositions() {
-        return positionService.getAllPositions();
-    }
-
-    @PostMapping("/new")
-    public void addEmployee(@RequestBody List<EmployeeDTO> employeeDTO) {
+    @PostMapping("/")
+    public ResponseEntity<String> addEmployee(@RequestBody List<EmployeeDTO> employeeDTO) {
         employeeService.addEmployee(employeeDTO);
-    }
-
-    @GetMapping("/all")
-    public List<EmployeeDTO> getAllEmployees() {
-        return employeeService.getAllEmployees();
+        return ResponseEntity.ok("Команда выполнена успешно");
     }
 
     @PutMapping("/{id}")
-    public EmployeeDTO editEmployee(@PathVariable Long id, @RequestBody EmployeeDTO newEmployeeDTO) {
-        return employeeService.editEmployee(id, newEmployeeDTO);
+    public ResponseEntity<EmployeeDTO> editEmployee(@PathVariable Long id, @RequestBody EmployeeDTO newEmployeeDTO) {
+        return ResponseEntity.ok(employeeService.editEmployee(id, newEmployeeDTO));
     }
 
-    @GetMapping("/{id}")
-    public EmployeeDTO getEmployeeById(@PathVariable Long id) {
-        return employeeService.getEmployeeById(id);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public void deleteEmployeeById(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteEmployeeById(@PathVariable Long id) {
         employeeService.deleteEmployeeById(id);
+        return ResponseEntity.ok("Команда выполнена успешно");
     }
 
-    @GetMapping("/salary/higherThan")
-    public List<EmployeeDTO> getEmployeesWithSalaryHigherThan(@RequestParam("compareSalary") int compareSalary) {
-        return employeeService.getEmployeesWithSalaryHigherThan(compareSalary);
+    @GetMapping("/salary/highest")
+    public ResponseEntity<List<EmployeeDTO>> getEmployeesWithHighestSalary() {
+        return ResponseEntity.ok(employeeService.getEmployeesWithHighestSalary());
     }
 
-    @PostMapping("/salary/highest")
-    public List<EmployeeDTO> getEmployeesWithHighestSalary() {
-        return employeeService.getEmployeesWithHighestSalary();
-    }
-
-    @GetMapping("/position")
-    public List<EmployeeDTO> getEmployeesByPosition(@RequestParam(name = "position", required = false) String position) {
-        return employeeService.getEmployeesByPosition(position);
-    }
-
-    @GetMapping("/{id}/fullInfo")
-    public EmployeeDTO getEmployeeFullInfo(@PathVariable Long id) {
-        return employeeService.getEmployeeFullInfo(id);
-    }
-
-    @GetMapping("/page")
-    public Page<EmployeeDTO> getEmployeesByPage(@RequestParam(value = "page", defaultValue = "0") int page) {
-        return employeeService.getEmployeesByPage(page);
-    }
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void loadEmployeesFromFileAndSave(@RequestParam("file") MultipartFile file) throws IOException {
-        List<EmployeeDTO> employeeDTO = employeeService.loadEmployeesFromFile(file);
-        employeeService.addEmployee(employeeDTO);
+    public ResponseEntity<String> loadEmployeesFromFileAndSave(@RequestParam("file") MultipartFile file) throws IOException {
+        employeeService.addEmployee(employeeService.loadEmployeesFromFile(file));
+        return ResponseEntity.ok("Команда выполнена успешно");
     }
 
     @PostMapping("/report")
-    public String getReportByDepartment() {
+    public ResponseEntity<String> getReportByDepartment() throws IOException {
         Long reportId = employeeService.getReportByDepartment();
-        return "Indeteficating (id) saving file: " + reportId;
+        return ResponseEntity.ok("Идентификатор (id) сохраненного отчёта: " + reportId);
+    }
+
+
+    @GetMapping("/{id}/fullInfo")
+    public ResponseEntity<EmployeeDTO> getEmployeeFullInfo(@PathVariable Long id) {
+        return ResponseEntity.ok(employeeService.getEmployeeFullInfo(id));
+    }
+
+    @GetMapping("/positions/all")
+    public ResponseEntity<List<PositionDTO>> getAllPositions() {
+        return ResponseEntity.ok(positionService.getAllPositions());
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {
+        return ResponseEntity.ok(employeeService.getAllEmployees());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable Long id) {
+        return ResponseEntity.ok(employeeService.getEmployeeById(id));
+    }
+
+    @GetMapping("/salary/higherThan")
+    public ResponseEntity<List<EmployeeDTO>> getEmployeesWithSalaryHigherThan(@RequestParam("compareSalary") int compareSalary) {
+        return ResponseEntity.ok(employeeService.getEmployeesWithSalaryHigherThan(compareSalary));
+    }
+
+    @GetMapping("/position")
+    public ResponseEntity<List<EmployeeDTO>> getEmployeesByPosition(@RequestParam(name = "position", required = false) String position) {
+        return ResponseEntity.ok(employeeService.getEmployeesByPosition(position));
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<Page<EmployeeDTO>> getEmployeesByPage(@RequestParam(value = "page", defaultValue = "0") int page) {
+        return ResponseEntity.ok(employeeService.getEmployeesByPage(page));
     }
 
     @GetMapping("/report/{id}")
-    public ResponseEntity<ByteArrayResource> getReportByIdAndDownload(@PathVariable Long id) {
+    public ResponseEntity<ByteArrayResource> getReportByIdAndDownload(@PathVariable Long id) throws IOException {
         employeeService.generateJsonFileFromReport(id);
-        return employeeService.getReportResponseById(id);
+        return ResponseEntity.ok(employeeService.getReportResponseById(id).getBody());
     }
 }

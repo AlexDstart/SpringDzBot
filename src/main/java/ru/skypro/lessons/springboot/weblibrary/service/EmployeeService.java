@@ -37,9 +37,9 @@ public interface EmployeeService {
         Page<EmployeeDTO> getEmployeesByPage(int page);
         List<EmployeeDTO> loadEmployeesFromFile(MultipartFile file) throws IOException;
 
-        Long getReportByDepartment();
+        Long getReportByDepartment() throws IOException, RuntimeException;
 
-        void generateJsonFileFromReport(Long id);
+        void generateJsonFileFromReport(Long id) throws IOException, RuntimeException;
 
         Optional<Report> getReportById(Long id);
 
