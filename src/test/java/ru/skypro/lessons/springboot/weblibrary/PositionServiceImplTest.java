@@ -1,4 +1,4 @@
-package ru.skypro.lessons.springboot.weblibrary.service;
+package ru.skypro.lessons.springboot.weblibrary;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,11 +10,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import ru.skypro.lessons.springboot.weblibrary.dto.PositionDTO;
 import ru.skypro.lessons.springboot.weblibrary.model.Position;
 import ru.skypro.lessons.springboot.weblibrary.repository.PositionRepository;
+import ru.skypro.lessons.springboot.weblibrary.service.PositionService;
+import ru.skypro.lessons.springboot.weblibrary.service.PositionServiceImpl;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static jdk.internal.org.objectweb.asm.util.CheckClassAdapter.verify;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -24,7 +25,7 @@ class PositionServiceImplTest {
 
     @Mock
     private PositionRepository positionRepositoryMock;
-    private  PositionService positionService;
+    private PositionService positionService;
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
@@ -35,10 +36,10 @@ class PositionServiceImplTest {
     @Test
     public void testAddPosition() {
 
-        PositionDTO positionDTO = new PositionDTO();
+        PositionDTO positionDTO = new PositionDTO("Manager");
         positionDTO.setPositionName("Manager");
 
-        Position mockPosition = new Position(1L, "Boss");
+        Position mockPosition = new Position("Boss");
         mockPosition.setId(1L);
         mockPosition.setName("Manager");
 
@@ -53,8 +54,8 @@ class PositionServiceImplTest {
     @Test
     public void testGetAllPositions() {
 
-        Position position1 = new Position(1L, "Boss");
-        Position position2 = new Position(2L, "Manager");
+        Position position1 = new Position("Boss");
+        Position position2 = new Position("Manager");
         List<Position> positions = Arrays.asList(position1, position2);
 
         when(positionRepositoryMock.findAll()).thenReturn(positions);
