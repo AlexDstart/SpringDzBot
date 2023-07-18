@@ -12,9 +12,10 @@ public class Position {
 
     private String name;
 
-
-
     public Position() {
+    }
+    public Position(String name) {
+        this.name = name;
     }
 
     public Long getId() {
