@@ -14,9 +14,16 @@ public class Position {
 
     public Position() {
     }
+
+    public Position(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Position(String name) {
         this.name = name;
     }
+
 
     public Long getId() {
         return id;

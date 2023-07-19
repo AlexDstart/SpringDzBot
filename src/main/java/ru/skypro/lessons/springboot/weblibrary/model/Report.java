@@ -13,10 +13,21 @@ public class Report {
     private String fileName;
 
     @Lob
-    @Column(name = "content", columnDefinition="text")
+    @Column(name = "content", columnDefinition = "text")
     private String content;
 
     public Report() {
+    }
+
+    public Report(Long id, String fileName, String content) {
+        this.id = id;
+        this.fileName = fileName;
+        this.content = content;
+    }
+
+    public Report(String fileName, String content) {
+        this.fileName = fileName;
+        this.content = content;
     }
 
     public Long getId() {

@@ -1,9 +1,17 @@
 package ru.skypro.lessons.springboot.weblibrary.dto;
 
 public class PositionDTO {
+
     private String positionName;
 
-    public String getPositionName() {
+    public PositionDTO( ) {
+    }
+
+    public PositionDTO(String positionName) {
+        this.positionName = positionName;
+    }
+
+    public String getPositionName( ) {
         return positionName;
     }
 

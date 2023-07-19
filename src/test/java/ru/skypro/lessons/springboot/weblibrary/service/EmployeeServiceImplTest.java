@@ -1,4 +1,4 @@
-package ru.skypro.lessons.springboot.weblibrary;
+package ru.skypro.lessons.springboot.weblibrary.service;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,8 +24,6 @@ import ru.skypro.lessons.springboot.weblibrary.repository.DepartmentRepository;
 import ru.skypro.lessons.springboot.weblibrary.repository.EmployeeRepository;
 import ru.skypro.lessons.springboot.weblibrary.repository.PositionRepository;
 import ru.skypro.lessons.springboot.weblibrary.repository.ReportRepository;
-import ru.skypro.lessons.springboot.weblibrary.service.EmployeeService;
-import ru.skypro.lessons.springboot.weblibrary.service.EmployeeServiceImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,6 +48,7 @@ class EmployeeServiceImplTest {
     private EmployeeService employeeService;
     private Position position;
     private Department department;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
@@ -57,7 +56,7 @@ class EmployeeServiceImplTest {
                 employeeRepositoryMock, positionRepositoryMock, departmentRepositoryMock,
                 reportRepositoryMock, objectMapperMock
         );
-        position = new Position("Boss");
+        position = new Position(1L, "Boss");
         position.setName("Manager");
         department = new Department("Finance");
         department.setName("Finance");
@@ -151,10 +150,10 @@ class EmployeeServiceImplTest {
 
     @DisplayName("Тест для метода получения сотрудника по должности")
     @ParameterizedTest
-    @MethodSource("ru.skypro.lessons.springboot.springbootmvc.data.PositionDataProvider#providePositions")
+    @MethodSource("ru.skypro.lessons.springboot.weblibrary.data.PositionDataProvider#providePositions")
     public void testGetEmployeesByPosition(String position) {
 
-        Position positionObj = new Position("Boss");
+        Position positionObj = new Position(1L, "Boss");
         positionObj.setName(position);
 
         Department department = new Department("Finance");
@@ -198,8 +197,8 @@ class EmployeeServiceImplTest {
                 new EmployeeDTO("Anna", 5000, "Boss", "Finance"),
                 new EmployeeDTO("Vladimir", 4000, "Manager", "Sales")
         );
-        Position directorPosition = new Position("Boss");
-        Position managerPosition = new Position("Boss");
+        Position directorPosition = new Position(1L, "Boss");
+        Position managerPosition = new Position(1L, "Boss");
         Department financeDepartment = new Department("Finance");
         Department salesDepartment = new Department("Sales");
 
@@ -248,9 +247,9 @@ class EmployeeServiceImplTest {
 
         EmployeeDTO employeeDTO = new EmployeeDTO("Anna", 5000, "Boss", "Finance");
 
-        Employee existingEmployee = new Employee(id, "Vladimir", 4000, new Position("Boss"), new Department("Sales"));
+        Employee existingEmployee = new Employee(id, "Vladimir", 4000, new Position(1L, "Boss"), new Department("Sales"));
 
-        Position directorPosition = new Position("Boss");
+        Position directorPosition = new Position(1L, "Boss");
 
         Department financeDepartment = new Department("Finance");
 
@@ -291,8 +290,8 @@ class EmployeeServiceImplTest {
         // Arrange
         int compareSalary = 3000;
         List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(1L, "Anna", 5000, new Position("Boss"), new Department("Finance")));
-        employees.add(new Employee(2L, "Vladimir", 4000, new Position("Boss"), new Department("Sales")));
+        employees.add(new Employee(1L, "Anna", 5000, new Position(1L, "Boss"), new Department("Finance")));
+        employees.add(new Employee(2L, "Vladimir", 4000, new Position(1L, "Boss"), new Department("Sales")));
 
         when(employeeRepositoryMock.findBySalaryGreaterThan(compareSalary)).thenReturn(employees);
 

@@ -8,15 +8,15 @@ import jakarta.persistence.*;
 @Table(name = "employee")
 public class Employee {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
-        private String name;
-        private int salary;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    private int salary;
 
     @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "position_id")
-        private Position position;
+    @JoinColumn(name = "position_id")
+    private Position position;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
@@ -24,23 +24,30 @@ public class Employee {
 
 
     public Employee(Long id, String name, int salary, Position position, Department department) {
-            this.id = id;
-            this.name = name;
-            this.salary = salary;
-            this.position = position;
-            this.department=department;
-        }
+        this.id = id;
+        this.name = name;
+        this.salary = salary;
+        this.position = position;
+        this.department = department;
+    }
 
     public Employee() {
-        }
+    }
 
-        public Position getPosition() {
-            return position;
-        }
+    public Employee(String name, int salary, Position position, Department department) {
+        this.name = name;
+        this.salary = salary;
+        this.position = position;
+        this.department = department;
+    }
 
-        public void setPosition(Position position) {
-            this.position = position;
-        }
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
 
     public Department getDepartment() {
         return department;
@@ -54,22 +61,26 @@ public class Employee {
         return id;
     }
 
-        public void setId(Long id) {
-            this.id = id;
-        }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-        public String getName() {
-            return name;
-        }
-        public void setName(String name) {
-            this.name = name;
-        }
-        public int getSalary() {
-            return salary;
-        }
-        public void setSalary(int salary) {
-            this.salary = salary;
-        }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +

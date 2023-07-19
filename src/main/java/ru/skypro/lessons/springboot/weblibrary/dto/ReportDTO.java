@@ -54,3 +54,4 @@ public class ReportDTO implements Serializable {
                 '}';
     }
 }
+

@@ -2,13 +2,20 @@ package ru.skypro.lessons.springboot.weblibrary.dto;
 
 public class EmployeeDTO {
     private String name;
-
-    private String departmentName;
     private int salary;
     private String positionName;
+    private String departmentName;
 
     public EmployeeDTO() {
     }
+
+    public EmployeeDTO(String name, int salary, String positionName, String departmentName) {
+        this.name = name;
+        this.salary = salary;
+        this.positionName = positionName;
+        this.departmentName = departmentName;
+    }
+
 
     public String getName() {
         return name;
@@ -33,6 +40,7 @@ public class EmployeeDTO {
     public void setPositionName(String positionName) {
         this.positionName = positionName;
     }
+
     public String getDepartmentName() {
         return departmentName;
     }
@@ -51,3 +59,4 @@ public class EmployeeDTO {
                 '}';
     }
 }
+

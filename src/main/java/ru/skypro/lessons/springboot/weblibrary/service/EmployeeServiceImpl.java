@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
-public class EmployeeServiceImpl  implements EmployeeService {
+public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final PositionRepository positionRepository;
@@ -105,6 +105,7 @@ public class EmployeeServiceImpl  implements EmployeeService {
         employeeRepository.saveAll(employees);
         logger.debug("Обращение к Employee выполнено: " + employees);
     }
+
     @Override
     public EmployeeDTO getEmployeeFullInfo(Long id) {
         logger.info("Вызван метод getEmployeeFullInfo: " + id);
@@ -139,13 +140,12 @@ public class EmployeeServiceImpl  implements EmployeeService {
 
 
     @Override
-
-        public void deleteEmployeeById(Long id) {
+    public void deleteEmployeeById(Long id) {
         logger.info("Вызван метод deleteEmployeeById: " + id);
-            Employee employee = employeeRepository.findById(id).orElseThrow();
+        Employee employee = employeeRepository.findById(id).orElseThrow();
         logger.debug("Обращение к Employee выполнено: " + employee);
-            employeeRepository.delete(employee);
-        }
+        employeeRepository.delete(employee);
+    }
 
     @Override
     public List<EmployeeDTO> getEmployeesWithSalaryHigherThan(int compareSalary) {
@@ -167,7 +167,6 @@ public class EmployeeServiceImpl  implements EmployeeService {
                 .toList();
     }
 
-
     @Override
     public Page<EmployeeDTO> getEmployeesByPage(int page) {
         logger.info("Вызван метод getEmployeesByPage: " + page);
@@ -175,8 +174,8 @@ public class EmployeeServiceImpl  implements EmployeeService {
         Page<Employee> employeePage = employeeRepository.findAll(pageable);
         logger.debug("Обращение к Employee выполнено: " + employeePage);
         return employeePage.map(this::convertToDto);
-
     }
+
     @Override
     public List<EmployeeDTO> loadEmployeesFromFile(MultipartFile file) throws IOException {
         logger.info("Вызван метод loadEmployeesFromFile: " + file);
@@ -216,6 +215,7 @@ public class EmployeeServiceImpl  implements EmployeeService {
             logger.error("Ошибка создания Json файла", e);
         }
     }
+
     @Override
     public ResponseEntity<ByteArrayResource> getReportResponseById(Long id) {
         logger.info("Вызван метод getReportResponseById: " + id);
@@ -255,6 +255,7 @@ public class EmployeeServiceImpl  implements EmployeeService {
         employee.setSalary(employeeDTO.getSalary());
         return employee;
     }
+
     public Long saveReportDTOsToJsonAndInTable(List<ReportDTO> reportDTOs) throws IOException {
         logger.info("Вызван метод saveReportDTOsToJsonAndInTable: " + reportDTOs);
         Report report = null;

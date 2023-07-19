@@ -5,6 +5,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.lessons.springboot.weblibrary.dto.EmployeeDTO;
@@ -15,6 +16,7 @@ import ru.skypro.lessons.springboot.weblibrary.service.PositionService;
 import java.io.IOException;
 import java.util.List;
 
+@Controller
 @RequestMapping("/employees")
 public class EmployeeController {
 
@@ -26,6 +28,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
         this.positionService = positionService;
     }
+
     @PostMapping("/")
     public ResponseEntity<String> addEmployee(@RequestBody List<EmployeeDTO> employeeDTO) {
         employeeService.addEmployee(employeeDTO);
@@ -49,7 +52,8 @@ public class EmployeeController {
     }
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> loadEmployeesFromFileAndSave(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<String> loadEmployeesFromFileAndSave(
+            @RequestParam("file") MultipartFile file) throws IOException {
         employeeService.addEmployee(employeeService.loadEmployeesFromFile(file));
         return ResponseEntity.ok("Команда выполнена успешно");
     }
@@ -82,17 +86,20 @@ public class EmployeeController {
     }
 
     @GetMapping("/salary/higherThan")
-    public ResponseEntity<List<EmployeeDTO>> getEmployeesWithSalaryHigherThan(@RequestParam("compareSalary") int compareSalary) {
+    public ResponseEntity<List<EmployeeDTO>> getEmployeesWithSalaryHigherThan(
+            @RequestParam("compareSalary") int compareSalary) {
         return ResponseEntity.ok(employeeService.getEmployeesWithSalaryHigherThan(compareSalary));
     }
 
     @GetMapping("/position")
-    public ResponseEntity<List<EmployeeDTO>> getEmployeesByPosition(@RequestParam(name = "position", required = false) String position) {
+    public ResponseEntity<List<EmployeeDTO>> getEmployeesByPosition(
+            @RequestParam(name = "position", required = false) String position) {
         return ResponseEntity.ok(employeeService.getEmployeesByPosition(position));
     }
 
     @GetMapping("/page")
-    public ResponseEntity<Page<EmployeeDTO>> getEmployeesByPage(@RequestParam(value = "page", defaultValue = "0") int page) {
+    public ResponseEntity<Page<EmployeeDTO>> getEmployeesByPage(
+            @RequestParam(value = "page", defaultValue = "0") int page) {
         return ResponseEntity.ok(employeeService.getEmployeesByPage(page));
     }
 
